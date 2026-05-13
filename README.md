@@ -12,17 +12,32 @@ object-oriented interface.
 #### Create a jail
 
 ```ruby
-jail = Jail.create(path: "/tmp/jail", name: "example", hostname: "example.local")
+jail = Jail.create(name: "example", hostname: "example.local", path: "/tmp/jail")
+```
+
+#### Sandbox
+
+```ruby
+##
+# Create a jail
+jail = Jail.create(name: "sandbox", hostname: "sandbox.test", path: "/tmp/sandbox")
+
+##
+# Attach the current process to the jail
 jail.attach
+
+##
+# Eval code within the jail
+puts eval("1 + 1")
 ```
 
 #### Read parameters
 
 ```ruby
 jail = Jail.find_by_id(1)
-puts jail["name"]
-puts jail["host.hostname"]
-puts jail["path"]
+puts jail.name
+puts jail.hostname
+puts jail.path
 ```
 
 #### Update parameters
@@ -36,7 +51,7 @@ jail["host.hostname"] = "example.local"
 
 ```ruby
 Jail.all.each do |jail|
-  puts "JID=#{jail["jid"]} name=#{jail["name"]}"
+  puts "JID=#{jail.id} name=#{jail.name}"
 end
 ```
 
