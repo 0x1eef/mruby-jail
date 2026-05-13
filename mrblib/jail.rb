@@ -44,8 +44,9 @@ class Jail
   # @param [String] name The jail name
   # @return [Jail]
   def self.find_by_name(name)
-    result = get({"name" => name, "jid" => nil}, 0)
-    new(jid: result["jid"], name:)
+    jail = all.find { _1["name"] == name }
+    raise Errno::ENOENT, "jail_get" unless jail
+    jail
   end
 
   ##
