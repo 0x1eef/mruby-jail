@@ -92,12 +92,34 @@ class Jail
   end
 
   ##
-  # Returns the cached jail ID if known.
+  # Returns the jail ID
   # @return [Integer, nil]
   def id
-    @jid
+    @jid || self["jid"]
   end
-  
+  alias_method :jid, :id
+
+  ##
+  # Returns the jail name
+  # @return [String, nil]
+  def name
+    @name || self["name"]
+  end
+
+  ##
+  # Returns the jail path
+  # @return [String]
+  def path
+    self["path"]
+  end
+
+  ##
+  # Returns the jail hostname
+  # @return [String, nil]
+  def hostname
+    self["host.hostname"]
+  end
+
   ##
   # Reads a jail parameter from the kernel.
   # @param [String, Symbol] name The jail parameter name
