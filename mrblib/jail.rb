@@ -157,7 +157,7 @@ class Jail
   def selector
     selector = {}
     selector["jid"] = @jid if @jid
-    selector["name"] = @name if @name
+    selector["name"] = @name if !@jid && @name
     if selector.empty?
       raise ArgumentError, "jail selector requires jid or name"
     end
