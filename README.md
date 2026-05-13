@@ -109,15 +109,9 @@ end
 ```
 
 Dependencies are declared in [mrbgem.rake](mrbgem.rake) and resolved
-automatically by the mruby build system:
-
-| Dependency | Purpose |
-|---|---|
-| [mruby-errno](https://github.com/iij/mruby-errno) | Errno exception handling |
-| [mruby-iijson](https://github.com/iij/mruby-iijson) | JSON support |
-
-This gem is only usable on FreeBSD systems. The underlying syscalls
-and `libjail` interfaces are FreeBSD-specific.
+automatically by the mruby build system. This gem is only usable on
+FreeBSD systems. The underlying syscalls and `libjail` interfaces
+are FreeBSD-specific.
 
 ## License
 
