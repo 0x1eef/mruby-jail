@@ -36,7 +36,7 @@ class Jail
   # @param [Integer] jid The jail ID
   # @return [Jail]
   def self.find_by_id(jid)
-    new(jid: jid)
+    new(jid:)
   end
 
   ##
@@ -45,7 +45,7 @@ class Jail
   # @return [Jail]
   def self.find_by_name(name)
     result = get({"name" => name, "jid" => nil}, 0)
-    new(jid: result["jid"], name: name)
+    new(jid: result["jid"], name:)
   end
 
   ##
@@ -71,14 +71,14 @@ class Jail
   # Returns all running jails as {Jail} instances.
   # @return [Array<Jail>]
   def self.all
-    all_by_id.map { |jid| find_by_id(jid) }
+    all_by_id.map { find_by_id(_1) }
   end
 
   ##
   # Returns the names of all running jails.
   # @return [Array<String, nil>]
   def self.all_by_name
-    all.map { |j| j["name"] }
+    all.map(&:name)
   end
 
   ##
@@ -144,10 +144,6 @@ class Jail
   # @return [Object] The assigned value
   def []=(name, value)
     key = name.to_s
-    if key == "jid"
-      @jid = value
-      return value
-    end
     self.class.set(selector.merge(key => value), UPDATE)
     @name = value if key == "name"
     value
@@ -157,21 +153,21 @@ class Jail
   # Attaches the current process to the jail.
   # @return [Integer]
   def attach
-    self.class.attach(@jid || self["jid"])
+    self.class.attach(jid)
   end
 
   ##
   # Removes the jail from the system.
   # @return [Integer]
   def remove
-    self.class.remove(@jid || self["jid"])
+    self.class.remove(jid)
   end
 
   ##
   # Returns a human-readable representation of the jail.
   # @return [String]
   def inspect
-    "#<Jail jid=#{self["jid"]} name=#{self["name"].inspect}>"
+    "#<Jail jid=#{jid} name=#{name.inspect}>"
   end
 
   private
