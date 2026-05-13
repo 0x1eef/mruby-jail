@@ -127,7 +127,8 @@ mrb_jail_import_value(mrb_state *mrb, struct jailparam *param, mrb_value val)
   default:
     {
       mrb_value s = mrb_string_type(mrb, val);
-      if (jailparam_import(param, RSTRING_PTR(s)) == -1) mrb_sys_fail(mrb, "jailparam_import");
+      const char *cstr = mrb_string_value_cstr(mrb, &s);
+      if (jailparam_import(param, cstr) == -1) mrb_sys_fail(mrb, "jailparam_import");
     }
     break;
   }
@@ -156,7 +157,7 @@ mrb_jail_params_build(mrb_state *mrb, mrb_value hash, mrb_bool for_get)
     mrb_value key = mrb_ary_ref(mrb, keys, (mrb_int)i);
     mrb_value val = mrb_hash_get(mrb, hash, key);
     mrb_value key_str = mrb_string_type(mrb, key);
-    const char *name = RSTRING_PTR(key_str);
+    const char *name = mrb_string_value_cstr(mrb, &key_str);
 
     if (jailparam_init(&jp->params[i], name) == -1) {
       mrb_jail_params_free(jp);
