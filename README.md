@@ -1,17 +1,11 @@
 ## About
 
-mruby-jail provides a compact mruby interface to FreeBSD `libjail`,
-making it practical to manage jails from small, dependency-light
-programs that need to run close to the system.
-
-mruby is a strong fit for embedded and appliance-style environments
-because it has a much smaller runtime footprint, fewer moving parts,
-and a simpler deployment story than CRuby, which makes it better suited
-for privileged tools that may need to run as `root`.
-
-With mruby-jail, you can create jails, find them by name or JID, read and
-update jail parameters, enumerate running jails, attach the current process,
-and remove jails again through a small Ruby API backed by `libjail`.
+mruby-jail provides a compact mruby interface to FreeBSD's libjail.
+It allows you to: create and remove jails, find them by name or
+jail ID (jid), read and/or update jail parameters, enumerate
+running jails, and attach the current process to a jail. All
+mentioned features are exposed through an easy-to-use
+object-oriented interface.
 
 ## Quick start
 
