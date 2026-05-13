@@ -1,0 +1,29 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  freebsd:
+    runs-on: ubuntu-latest
+    name: FreeBSD
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        path: mruby-jail
+    - uses: actions/checkout@v4
+      with:
+        repository: mruby/mruby
+        path: mruby
+    - name: Build and test
+      uses: vmactions/freebsd-vm@v1
+      with:
+        copyback: false
+        envs: GITHUB_WORKSPACE
+        run: |
+          pkg-static install -y ruby bison
+          cd "$GITHUB_WORKSPACE/mruby-jail"
+          make MRUBY_DIR="$GITHUB_WORKSPACE/mruby"
