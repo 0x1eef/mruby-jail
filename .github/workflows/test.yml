@@ -24,6 +24,6 @@ jobs:
         copyback: false
         envs: GITHUB_WORKSPACE
         run: |
-          pkg-static install -y ruby rubygem-rake bison
+          pkg-static install -y ruby rubygem-rake bison git
           cd "$GITHUB_WORKSPACE/mruby-jail"
           make MRUBY_DIR="$GITHUB_WORKSPACE/mruby"
