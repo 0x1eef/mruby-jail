@@ -12,7 +12,11 @@ object-oriented interface.
 #### Create a jail
 
 ```ruby
-jail = Jail.create(name: "example", hostname: "example.local", path: "/tmp/jail")
+jail = Jail.create(
+  name: "example",
+  hostname: "example.local",
+  path: "/tmp/jail"
+)
 ```
 
 #### Sandbox
@@ -20,7 +24,11 @@ jail = Jail.create(name: "example", hostname: "example.local", path: "/tmp/jail"
 ```ruby
 ##
 # Create a jail
-jail = Jail.create(name: "sandbox", hostname: "sandbox.test", path: "/tmp/sandbox")
+jail = Jail.create(
+  name: "sandbox",
+  hostname: "sandbox.test",
+  path: "/tmp/sandbox"
+)
 
 ##
 # Attach the current process to the jail
