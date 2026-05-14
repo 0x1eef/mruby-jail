@@ -5,6 +5,7 @@ end
 
 describe "Jail" do
   let(:root) { Jail::Test.root }
+  after { Jail::Test.remove_all }
 
   describe "constants" do
     it "defines CREATE" do
@@ -61,7 +62,7 @@ describe "Jail" do
     it "returns a hash of jail parameters" do
       expect(result).must_be_instance_of Hash
       expect(result["jid"]).must_equal jid
-      expect(result["path"].to_s.strip).must_equal root
+      expect(result["path"]).must_equal root
       expect(result["persist"]).must_equal 1
     end
   end
@@ -101,80 +102,73 @@ describe "Jail" do
   end
 
   describe ".create" do
-    let(:jname) { Jail::Test.name("mruby-test") }
+    let(:jname) { Jail::Test.jname("mruby-test") }
+    let(:jail) { Jail.create(path: root, name: jname) }
 
     it "creates a jail instance" do
-      jail = Jail.create(path: root, name: name)
       expect(jail).must_be_instance_of Jail
-      expect(jail["jid"]).must_be_kind_of Integer
-      expect(jail["jid"] >= 0).must_equal true
-      expect(jail["name"]).must_equal name
-      jail.remove
+      expect(jail.id).must_be_kind_of Integer
+      expect(jail.id >= 0).must_equal true
+      expect(jail.name).must_equal jname
     end
 
     it "sets hostname when given" do
       jail = Jail.create(path: root, name: Jail::Test.jname("mruby-host-test"), hostname: "test.local")
-      expect(jail["host.hostname"].to_s.strip).must_equal "test.local"
-      jail.remove
+      expect(jail.hostname).must_equal "test.local"
     end
   end
 
   describe ".find_by_id" do
-    let(:jname) { Jail::Test.name("mruby-find-test") }
-    let(:created) { Jail.create(path: root, name: name) }
-    after { created.remove if created }
+    let(:jname) { Jail::Test.jname("mruby-find-test") }
+    let(:created) { Jail.create(path: root, name: jname) }
 
     it "finds a jail by its JID" do
-      found = Jail.find_by_id(created["jid"])
+      found = Jail.find_by_id(created.id)
       expect(found).must_be_instance_of Jail
-      expect(found["jid"]).must_equal created["jid"]
-      expect(found["name"]).must_equal name
+      expect(found.id).must_equal created.id
+      expect(found.name).must_equal jname
     end
   end
 
   describe ".find_by_name" do
-    let(:jname) { Jail::Test.name("mruby-find-name-test") }
-    let(:created) { Jail.create(path: root, name: name) }
+    let(:jname) { Jail::Test.jname("mruby-find-name-test") }
+    let(:created) { Jail.create(path: root, name: jname) }
     before { created }
-    after { created.remove if created }
 
     it "finds a jail by its name" do
-      found = Jail.find_by_name(name)
+      found = Jail.find_by_name(jname)
       expect(found).must_be_instance_of Jail
-      expect(found["name"]).must_equal name
+      expect(found.name).must_equal jname
     end
   end
 
   describe "#[]" do
-    let(:jname) { Jail::Test.name("mruby-read-test") }
-    let(:jail) { Jail.create(path: root, name: name, hostname: "read.local") }
-    after { jail.remove if jail }
+    let(:jname) { Jail::Test.jname("mruby-read-test") }
+    let(:jail) { Jail.create(path: root, name: jname, hostname: "read.local") }
 
     it "reads a parameter from the kernel" do
-      expect(jail["host.hostname"].to_s.strip).must_equal "read.local"
+      expect(jail.hostname).must_equal "read.local"
     end
   end
 
   describe "#[]=" do
-    let(:jname) { Jail::Test.name("mruby-write-test") }
-    let(:jail) { Jail.create(path: root, name: name) }
-    after { jail.remove if jail }
-    before { jail["host.hostname"] = "write.local" }
+    let(:jname) { Jail::Test.jname("mruby-write-test") }
+    let(:jail) { Jail.create(path: root, name: jname) }
+    before { jail.hostname = "write.local" }
 
     it "updates a parameter immediately" do
-      expect(jail["host.hostname"].to_s.strip).must_equal "write.local"
+      expect(jail.hostname).must_equal "write.local"
     end
   end
 
   describe "#inspect" do
-    let(:jname) { Jail::Test.name("mruby-inspect-test") }
-    let(:jail) { Jail.create(path: root, name: name) }
+    let(:jname) { Jail::Test.jname("mruby-inspect-test") }
+    let(:jail) { Jail.create(path: root, name: jname) }
     let(:str) { jail.inspect }
-    after { jail.remove if jail }
 
     it "returns a human-readable representation" do
       expect(str).must_include "Jail"
-      expect(str).must_include name
+      expect(str).must_include jname
     end
   end
 
@@ -192,6 +186,5 @@ describe "Jail" do
     end
   end
 end
-
 
 Minitest.run(ARGV) || exit(1)
