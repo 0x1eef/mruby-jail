@@ -23,10 +23,10 @@
 #include <mruby/array.h>
 #include <mruby/numeric.h>
 
-#define MRB_JAIL_CREATE 0x01
-#define MRB_JAIL_UPDATE 0x02
-#define MRB_JAIL_ATTACH 0x04
-#define MRB_JAIL_DYING 0x08
+#define MRB_JAIL_CREATE JAIL_CREATE
+#define MRB_JAIL_UPDATE JAIL_UPDATE
+#define MRB_JAIL_ATTACH JAIL_ATTACH
+#define MRB_JAIL_DYING  JAIL_DYING
 
 enum mrb_jail_value_kind {
   MRB_JAIL_VALUE_STRING = 0,
