@@ -22,8 +22,6 @@ module Jail::Test
     Jail.remove(jail.id)
   rescue Errno::ENOENT
     Jail.find_by_name(jail.name).remove
-  rescue Errno::ENOENT
-    nil
   end
 
   def self.remove_all
