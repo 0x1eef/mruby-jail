@@ -51,6 +51,13 @@ puts jail.path
 #### Update parameters
 
 ```ruby
+##
+# Preconfigured setters
+jail = Jail.find_by_id(1)
+jail.hostname = "example.local"
+
+##
+# Dynamic jail parameters
 jail = Jail.find_by_id(1)
 jail["host.hostname"] = "example.local"
 ```

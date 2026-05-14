@@ -101,10 +101,27 @@ class Jail
   alias_method :jid, :id
 
   ##
+  # Set the jail ID
+  # @param [Integer] jid
+  # @return [void]
+  def id=(jid)
+    self["jid"] = jid
+  end
+  alias_method :jid=, :id=
+
+  ##
   # Returns the jail name
   # @return [String, nil]
   def name
     @name || self["name"]
+  end
+
+  ##
+  # Set the jail name
+  # @param [String] name
+  # @return [void]
+  def name=(name)
+    self["name"] = name
   end
 
   ##
@@ -115,10 +132,26 @@ class Jail
   end
 
   ##
+  # Sets the jail path
+  # @param [String] path
+  # @return [void]
+  def path=(path)
+    self["path"] = path
+  end
+
+  ##
   # Returns the jail hostname
   # @return [String, nil]
   def hostname
     self["host.hostname"]
+  end
+
+  ##
+  # Set the jail hostname
+  # @param [String] hostname
+  # @return [void]
+  def hostname=(hostname)
+    self["host.hostname"] = hostname
   end
 
   ##
